@@ -11,6 +11,7 @@ import SimplePagination from "../Pagination/SimplePagination"
 import { getComicsFilters, } from "../../redux/actions/comicsFilters"
 import { getSearchComics, } from "../../redux/actions/searchComics"
 import Loader from "../Loader"
+import './SearchComicsPage.scss'
 
 const isValidClass = 'is-valid'
 const isInvalidClass = 'is-invalid'
@@ -290,7 +291,7 @@ const SearchComicsPage = ({
         >Hide fields</button> : null}
       </div>
       <form
-        className="card bg-dark"
+        className="card bg-dark search-card"
         action=''
         method='GET'
         onSubmit={handleSearchPageFormSubmit}
@@ -398,7 +399,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setDateRange(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.dateRange ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.dateRange ? isInvalidClass : ''}`}
                   name='dateRange'
                   placeholder='Date range'
                   value={dateRange}
@@ -417,7 +418,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setTitle(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.title ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.title ? isInvalidClass : ''}`}
                   name='title'
                   placeholder='Title'
                   value={title}
@@ -436,7 +437,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setTitleStartsWith(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.titleStartsWith ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.titleStartsWith ? isInvalidClass : ''}`}
                   name='titleStartsWith'
                   placeholder='Title starts with...'
                   value={titleStartsWith}
@@ -455,7 +456,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setStartYear(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.startYear ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.startYear ? isInvalidClass : ''}`}
                   name='startYear'
                   placeholder='Start year'
                   value={startYear}
@@ -474,7 +475,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setIssueNumber(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.issueNumber ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.issueNumber ? isInvalidClass : ''}`}
                   name='issueNumber'
                   placeholder='Issue number'
                   value={issueNumber}
@@ -493,7 +494,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setDiamondCode(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.diamondCode ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.diamondCode ? isInvalidClass : ''}`}
                   name='diamondCode'
                   placeholder='Diamond code'
                   value={diamondCode}
@@ -512,7 +513,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setDigitalID(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.digitalId ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.digitalId ? isInvalidClass : ''}`}
                   name='digitalId'
                   placeholder='Digital id'
                   value={digitalID}
@@ -531,7 +532,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setUpc(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.upc ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.upc ? isInvalidClass : ''}`}
                   name='upc'
                   placeholder='UPC barcode'
                   value={upc}
@@ -550,7 +551,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setIsbn(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.isbn ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.isbn ? isInvalidClass : ''}`}
                   name='isbn'
                   placeholder='ISBN number'
                   value={isbn}
@@ -569,7 +570,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setEan(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.ean ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.ean ? isInvalidClass : ''}`}
                   name='ean'
                   placeholder='EAN number (The International Article Number or European Article Number)'
                   value={ean}
@@ -588,7 +589,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setIssn(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.issn ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.issn ? isInvalidClass : ''}`}
                   name='issn'
                   placeholder='ISSN number (International Standard Serial Number)'
                   value={issn}
@@ -624,7 +625,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setModifiedSince(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.modifiedSince ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.modifiedSince ? isInvalidClass : ''}`}
                   name='modifiedSince'
                   placeholder='Date modified since'
                   type='date'
@@ -644,7 +645,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setCreators(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.creators ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.creators ? isInvalidClass : ''}`}
                   name='creators'
                   placeholder='creators'
                   value={creators}
@@ -663,7 +664,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setCharacters(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.characters ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.characters ? isInvalidClass : ''}`}
                   name='characters'
                   placeholder='Characters'
                   value={characters}
@@ -682,7 +683,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setSeries(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.series ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.series ? isInvalidClass : ''}`}
                   name='series'
                   placeholder='Series'
                   value={series}
@@ -701,7 +702,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setEvents(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.events ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.events ? isInvalidClass : ''}`}
                   name='events'
                   placeholder='Events'
                   value={events}
@@ -720,7 +721,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setStories(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.stories ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.stories ? isInvalidClass : ''}`}
                   name='stories'
                   placeholder='Stories'
                   value={stories}
@@ -739,7 +740,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setSharedAppearances(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.sharedAppearances ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.sharedAppearances ? isInvalidClass : ''}`}
                   name='sharedAppearances'
                   placeholder='Shared appearances'
                   value={sharedAppearances}
@@ -758,7 +759,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setCollaborators(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.collaborators ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.collaborators ? isInvalidClass : ''}`}
                   name='collaborators'
                   placeholder='Collaborators'
                   value={collaborators}
@@ -777,7 +778,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setOrderBy(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.orderBy ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.orderBy ? isInvalidClass : ''}`}
                   name='orderBy'
                   placeholder='Order by'
                   value={orderBy}
@@ -796,7 +797,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setLimit(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.limit ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.limit ? isInvalidClass : ''}`}
                   name='limit'
                   placeholder='Limit'
                   value={limit}
@@ -815,7 +816,7 @@ const SearchComicsPage = ({
                 <input 
                   onChange={(e) => { setOffset(e.target.value) }}
                   style={styles.input}
-                  className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.offset ? isInvalidClass : ''}`}
+                  className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.offset ? isInvalidClass : ''}`}
                   name='offset'
                   placeholder='Offset'
                   value={offset}
