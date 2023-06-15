@@ -5738,11 +5738,6 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-flagsmith@^3.14.1:
-  version "3.18.3"
-  resolved "https://registry.yarnpkg.com/flagsmith/-/flagsmith-3.18.3.tgz#c7382d2113cca12c63eb91602fc4efb9a3567e9d"
-  integrity sha512-ja+Gd0nSSBSsUSvLG4/91tYI8bm1NZSDY0YkyVREl1E6L4p/bYNk1AYuuPTu4kr4cg9VjbggWIYw3Zq5dWFABA==
-
 flat-cache@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-3.0.4.tgz#61b0338302b2fe9f957dcc32fc2a87f1c3048b11"

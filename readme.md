@@ -1,12 +1,10 @@
 ![marvel-moving](https://user-images.githubusercontent.com/31970496/201666745-37f4c424-0557-4051-bf27-d40cd0b09780.gif)
 
-![mrvl4.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl4.png)
+![mrvl-desktop.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl-desktop.png)
 
-![mrvl.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl.png)
+![mrvl-desktop2.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl-desktop2.png)
 
-![mrvl2.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl2.png)
-
-![mrvl3.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl3.png)
+![mrvl-desktop3.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl-desktop3.png)
 
 # mrvl-desktop [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
 
@@ -54,13 +52,6 @@ async getFavComics(ids) {
 ```
 
 ## Usage
-
-Update https://github.com/kkamara/mrvl/blob/main/src/constants.jsx to the following:
-
-```js
-// export const ENV = 'prod'
-export const ENV = 'local'
-```
 
 ```bash
   yarn start

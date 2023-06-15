@@ -8,7 +8,7 @@ export function getComic(id) {
         await (new marvelService()).getComic(id)
             .then(json => {
                 dispatch(
-                    success(comicActions.GET_COMIC_SUCCESS, json.data.data)
+                    success(comicActions.GET_COMIC_SUCCESS, json.data.data.results[0])
                 )
             })
             .catch(err => {

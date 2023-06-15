@@ -82,10 +82,6 @@ const HomePage = ({
 		!data.results.length)
 
 	const __renderComics = () => {
-		if (true) {
-			return <p>No results to display your query.</p>
-		}
-
 		if (!dataHasLoaded) {
 			return <p>No results to display your query.</p>
 		}
