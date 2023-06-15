@@ -1,0 +1,16 @@
+.close-modal-btn,
+.comic-thumbnail {
+  cursor: pointer;
+}
+
+$spacing: 70px;
+.comic-thumbnail-container {
+  margin-top: $spacing;
+  margin-bottom: $spacing;
+}
+
+@media screen and (max-width: 650px) {
+  .comic-thumbnail {
+    width: 350px;
+  }
+}
