@@ -213,7 +213,8 @@ const SearchComicsPage = ({
 		return comicsComponents
 	}
   
-  const handleSearchPageFormSubmit = () => {
+  const handleSearchPageFormSubmit = e => {
+	e.preventDefault()
     const payload = {
       format,
       formatType,
