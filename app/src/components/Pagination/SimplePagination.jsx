@@ -1,8 +1,17 @@
 import React from 'react'
+import {
+	Link,
+	useNavigate,
+	useLocation,
+} from 'react-router-dom'
 import { useQuery, } from '../../utilities/methods'
 
 const SimplePagination = ({ data, hideFields, }) => {
     const query = useQuery()
+	const navigate = useNavigate()
+	//const {state} = useLocation()
+	//const { offset, } = state
+	
     let offset = 0
 
     let queryOffset = query.get('offset')
@@ -52,22 +61,22 @@ const SimplePagination = ({ data, hideFields, }) => {
 
     const leftPaginateBtnClick = e => {
         if (disableLeftPaginator) return
-        window.location.href = prevOffsetURL.href
+        navigate('/search', { state: {}, })
     }
 
     const rightPaginateBtnClick = e => {
         if (disableRightPaginator) return
-        window.location.href = nextOffsetURL.href
+        navigate('/search', { state: {}, })
     }
     
     return <>
         <nav aria-label='Comic pagination'>
             <ul className='pagination justify-content-center'>
                 <li onClick={leftPaginateBtnClick} className={`page-item ${disableLeftPaginator ? 'disabled' : ''}`}>
-                    <a className='page-link' href={prevOffsetURL.href}>Previous</a>
+                    <a className='page-link' href='#'>Previous</a>
                 </li>
                 <li onClick={rightPaginateBtnClick} className={`page-item ${disableRightPaginator ? 'disabled' : ''}`}>
-                    <a className='page-link' href={nextOffsetURL.href}>Next</a>
+                    <a className='page-link' href='#'>Next</a>
                 </li>
             </ul>
         </nav>
