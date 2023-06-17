@@ -1,5 +1,6 @@
 {
   "name": "mrvl-desktop",
+  "description": "Browse and manage your favourite Marvel Comics.",
   "version": "1.0.0",
   "author": "https://github.com/kkamara",
   "private": true,
