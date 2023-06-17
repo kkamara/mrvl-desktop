@@ -72,6 +72,8 @@ async getFavComics(ids) {
 
 ## Misc
 
+[Complete MRVL web app now in desktop (all functionality available) #1](https://github.com/kkamara/mrvl-desktop/issues/1).
+
 Each Marvel API key ([see environment variables](https://raw.githubusercontent.com/kkamara/mrvl/main/.env.example)) has a request limit of 3000/day.
 
 [See react boilerplate.](https://github.com/kkamara/react-boilerplate)
