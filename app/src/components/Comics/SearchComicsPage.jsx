@@ -59,17 +59,19 @@ const SearchComicsPage = ({
 
 	useEffect(() => {
 		loadComicsFilters(pagination.data.offset)
-	    if (pagination.data.search.hideFields) {
+	    if (pagination.data.search && pagination.data.search.hideFields) {
 	      setHideFields(pagination.data.search.hideFields)
 	    }
 	    console.log('in development')
 	    return
+	    const payload = {}
+	    /*
 	    const payload = {
-	      format: query.get('format'),
-	      formatType: query.get('formatType'),
-	      noVariants: query.get('noVariants'),
-	      dateDescriptor: query.get('dateDescriptor'),
-	      dateRange: query.get('dateRange'),
+	      format: pagination.data.search.format,
+	      formatType: pagination.data.search.formatType,
+	      noVariants: pagination.data.search.noVariants,
+	      dateDescriptor: pagination.data.search.dateDescriptor,
+	      dateRange: query.get('dateRange,
 	      title: query.get('title'),
 	      titleStartsWith: query.get('titleStartsWith'),
 	      startYear: query.get('startYear'),
@@ -93,6 +95,7 @@ const SearchComicsPage = ({
 	      limit: query.get('limit'),
 	      offset: paginationOffset,
 	    }
+	    */
 	    let urlParamExists = false
 	    for(const key in payload) {
 	      const val = payload[key]
