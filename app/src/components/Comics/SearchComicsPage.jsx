@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Helmet, } from "react-helmet"
 import ComicService from '../../service/comicService'
 
-import { useQuery, } from '../../utilities/methods'
 import { APP_NAME, } from "../../constants"
 import Comic from '../Comic'
 import SimplePagination from "../Pagination/SimplePagination"
 
+import { getPagination, } from "../../redux/actions/pagination"
 import { getComicsFilters, } from "../../redux/actions/comicsFilters"
 import { getSearchComics, } from "../../redux/actions/searchComics"
 import Loader from "../Loader"
@@ -23,16 +23,10 @@ const SearchComicsPage = ({
   getSearchComics,
   comicsFilters,
   searchComics,
+  getPagination,
+  pagination,
 }) => {
-	const query = useQuery()
-	let paginationOffset = 0
-
-	let queryOffset = query.get('offset')
-	if (queryOffset && !isNaN(parseInt(queryOffset))) {
-    paginationOffset = parseInt(queryOffset)
-	}
-
-	const [isOpenStatesPerComic, setisOpenStatesPerComic] = useState(null)
+  const [isOpenStatesPerComic, setisOpenStatesPerComic] = useState(null)
 
   const [hideFields, setHideFields] = useState(false)
   const [format, setFormat] = useState('')
@@ -64,60 +58,62 @@ const SearchComicsPage = ({
   const [offset, setOffset] = useState('')
 
 	useEffect(() => {
-		loadComicsFilters(paginationOffset)
-    if (query.get('hideFields') === 'true') {
-      setHideFields(true)
-    }
-    const payload = {
-      format: query.get('format'),
-      formatType: query.get('formatType'),
-      noVariants: query.get('noVariants'),
-      dateDescriptor: query.get('dateDescriptor'),
-      dateRange: query.get('dateRange'),
-      title: query.get('title'),
-      titleStartsWith: query.get('titleStartsWith'),
-      startYear: query.get('startYear'),
-      issueNumber: query.get('issueNumber'),
-      diamondCode: query.get('diamondCode'),
-      digitalID: query.get('digitalID'),
-      upc: query.get('upc'),
-      isbn: query.get('isbn'),
-      ean: query.get('ean'),
-      issn: query.get('issn'),
-      hasDigitalIssue: query.get('hasDigitalIssue'),
-      modifiedSince: query.get('modifiedSince'),
-      creators: query.get('creators'),
-      characters: query.get('characters'),
-      series: query.get('series'),
-      events: query.get('events'),
-      stories: query.get('stories'),
-      sharedAppearances: query.get('sharedAppearances'),
-      collaborators: query.get('collaborators'),
-      orderBy: query.get('orderBy'),
-      limit: query.get('limit'),
-      offset: paginationOffset,
-    }
-    let urlParamExists = false
-    for(const key in payload) {
-      const val = payload[key]
-      if (val === null) {
-        delete payload[key]
-      } else {
-        urlParamExists = true
-        if (key === 'noVariants' && val == 'true') {
-          setNoVariants(true)
-        } if (key === 'hasDigitalIssue' && val == 'true') {
-          setHasDigitalIssue(true)
-        } else {
-          const setFunc = 'set' + key[0].toUpperCase() + key.slice(1) + '(' + `'${val}'` + ')'
-          eval(setFunc)
-        }
-      }
-    }
-    if (urlParamExists) {
-      // search comics with filters from url  
-      loadSearchComics(payload, payload.offset)
-    }
+		loadComicsFilters(pagination.data.offset)
+	    if (pagination.data.search.hideFields) {
+	      setHideFields(pagination.data.search.hideFields)
+	    }
+	    console.log('in development')
+	    return
+	    const payload = {
+	      format: query.get('format'),
+	      formatType: query.get('formatType'),
+	      noVariants: query.get('noVariants'),
+	      dateDescriptor: query.get('dateDescriptor'),
+	      dateRange: query.get('dateRange'),
+	      title: query.get('title'),
+	      titleStartsWith: query.get('titleStartsWith'),
+	      startYear: query.get('startYear'),
+	      issueNumber: query.get('issueNumber'),
+	      diamondCode: query.get('diamondCode'),
+	      digitalID: query.get('digitalID'),
+	      upc: query.get('upc'),
+	      isbn: query.get('isbn'),
+	      ean: query.get('ean'),
+	      issn: query.get('issn'),
+	      hasDigitalIssue: query.get('hasDigitalIssue'),
+	      modifiedSince: query.get('modifiedSince'),
+	      creators: query.get('creators'),
+	      characters: query.get('characters'),
+	      series: query.get('series'),
+	      events: query.get('events'),
+	      stories: query.get('stories'),
+	      sharedAppearances: query.get('sharedAppearances'),
+	      collaborators: query.get('collaborators'),
+	      orderBy: query.get('orderBy'),
+	      limit: query.get('limit'),
+	      offset: paginationOffset,
+	    }
+	    let urlParamExists = false
+	    for(const key in payload) {
+	      const val = payload[key]
+	      if (val === null) {
+	        delete payload[key]
+	      } else {
+	        urlParamExists = true
+	        if (key === 'noVariants' && val == 'true') {
+	          setNoVariants(true)
+	        } if (key === 'hasDigitalIssue' && val == 'true') {
+	          setHasDigitalIssue(true)
+	        } else {
+	          const setFunc = 'set' + key[0].toUpperCase() + key.slice(1) + '(' + `'${val}'` + ')'
+	          eval(setFunc)
+	        }
+	      }
+	    }
+	    if (urlParamExists) {
+	      // search comics with filters from url  
+	      loadSearchComics(payload, payload.offset)
+	    }
 	}, [])
 
 	const loadComicsFilters = (paginationOffset) => {
@@ -857,10 +853,12 @@ const styles = {
 }
 
 const mapStateToProps = state => ({
+	pagination: state.pagination,
 	comicsFilters: state.comicsFilters,
 	searchComics: state.searchComics,
 })
 const mapDispatchToProps = dispatch => ({
+	getPagination: () => dispatch(getPagination()),
 	getComicsFilters: (filters, offset) => dispatch(getComicsFilters(offset)),
 	getSearchComics: (filters, offset) => dispatch(getSearchComics(filters, offset)),
 })
