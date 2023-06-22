@@ -12,7 +12,7 @@ export const convertArrayToGETParams = params => {
 }
 
 export function useQuery() {
-    const { search } = useLocation();
+    const { search } = useLocation()
   
-    return useMemo(() => new URLSearchParams(search), [search]);
+    return useMemo(() => new URLSearchParams(search), [search])
 }

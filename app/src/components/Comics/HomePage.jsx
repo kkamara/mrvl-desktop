@@ -1,18 +1,14 @@
-import React, { 
-	useState, 
-	useEffect, 
-	useCallback,
-} from "react"
+import React, { useState, useEffect, } from "react"
 import { connect, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import ComicService from '../../service/comicService'
 
+import { getPagination, } from "../../redux/actions/pagination"
 import { getComics, } from "../../redux/actions/comics"
 import { getFavComics, } from "../../redux/actions/comic"
 import SimplePagination from "../Pagination/SimplePagination"
 import Comic from '../Comic'
 
-import { useQuery, } from '../../utilities/methods'
 import Loader from "../Loader"
 import { APP_NAME, } from "../../constants"
 
@@ -21,27 +17,26 @@ import './HomePage.scss'
 const comicService = new ComicService
 
 const HomePage = ({ 
+	getPagination,
+	pagination,
 	comics, 
 	getComics,
 	getFavComics,
 }) => {
-	const query = useQuery()
-	let offset = 0
-
-	let queryOffset = query.get('offset')
-	if (queryOffset && !isNaN(parseInt(queryOffset))) {
-			offset = parseInt(queryOffset)
-	}
-
 	const { data, fetched, loading, } = comics
 	const pageTitle = `Home | ${APP_NAME}`
 
 	const [isOpenStatesPerComic, setisOpenStatesPerComic] = useState(null)
-
+	
 	useEffect(() => {
-		loadComics(offset)
+		loadPagination()
+		loadComics(pagination.data.offset)
 		loadFavComics()
-	}, [])
+	}, [pagination.data.offset,])
+	
+	const loadPagination = () => {
+		getPagination()
+	}
 
 	const loadComics = (offset) => {
 		getComics(offset)
@@ -82,10 +77,6 @@ const HomePage = ({
 		!data.results.length)
 
 	const __renderComics = () => {
-		if (true) {
-			return <p>No results to display your query.</p>
-		}
-
 		if (!dataHasLoaded) {
 			return <p>No results to display your query.</p>
 		}
@@ -161,9 +152,11 @@ const HomePage = ({
 }
 
 const mapStateToProps = state => ({
+	pagination: state.pagination,
 	comics: state.comics,
 })
 const mapDispatchToProps = dispatch => ({
+	getPagination: () => dispatch(getPagination()),
 	getComics: offset => dispatch(getComics(offset)),
 	getFavComics: (fetchFavItems) => dispatch(getFavComics(fetchFavItems)),
 })

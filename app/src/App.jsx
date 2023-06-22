@@ -19,6 +19,8 @@ import SearchComicsPage from './components/Comics/SearchComicsPage'
 import Page404 from './components/Page404'
 import Footer from './components/Footer'
 
+import './App.scss'
+
 const App = () => (
   <div id='app'>
     <BrowserRouter>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom"
 import { Helmet, } from "react-helmet"
 
 import image from '../assets/marvel-moving.gif'
@@ -19,14 +20,14 @@ const Header = () => {
                     className='header-img'
                     src={image} 
                     alt='marvel-moving.gif' 
-                    onClick={() => { window.location.href = '/mrvl' }}
+                    onClick={() => { window.location.href = '/' }}
                 />
             </div>
             <nav className='container nav-container'>
-                <a className='btn btn-warning btn-lg' href='/mrvl'>Home</a>
-                <a className='btn btn-warning btn-lg' href='/mrvl/search'>Search</a>
-                <a className='btn btn-warning btn-lg' href='/mrvl/favs'>Favourites</a>
-                <a className='btn btn-warning btn-lg' href='/mrvl/404'>404 page</a>
+                <Link className='btn btn-warning btn-lg' to='/'>Home</Link>
+                <Link className='btn btn-warning btn-lg' to='/search'>Search</Link>
+                <Link className='btn btn-warning btn-lg' to='/favs'>Favourites</Link>
+                <Link className='btn btn-warning btn-lg' to='/404'>404 page</Link>
             </nav>
         </header>
     </>
