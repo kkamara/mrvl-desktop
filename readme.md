@@ -12,6 +12,10 @@
 
 (15 Jun 23) Browse and manage your favourite Marvel Comics. Reactjs.
 
+## Download
+
+* [macOs](https://github.com/kkamara/mrvl-desktop/releases).
+
 ## Code snippet
 
 ```js
