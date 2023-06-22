@@ -7,7 +7,7 @@ import { APP_NAME, } from "../../constants"
 import Comic from '../Comic'
 import SimplePagination from "../Pagination/SimplePagination"
 
-import { getPagination, } from "../../redux/actions/pagination"
+import { getPagination, setPagination, } from "../../redux/actions/pagination"
 import { getComicsFilters, } from "../../redux/actions/comicsFilters"
 import { getSearchComics, } from "../../redux/actions/searchComics"
 import Loader from "../Loader"
@@ -24,100 +24,67 @@ const SearchComicsPage = ({
   comicsFilters,
   searchComics,
   getPagination,
+  setPagination,
   pagination,
 }) => {
   const [isOpenStatesPerComic, setisOpenStatesPerComic] = useState(null)
 
-  const [hideFields, setHideFields] = useState(false)
-  const [format, setFormat] = useState('')
-  const [formatType, setFormatType] = useState('')
-  const [noVariants, setNoVariants] = useState(false)
-  const [dateDescriptor, setDateDescriptor] = useState('')
-  const [dateRange, setDateRange] = useState('')
-  const [title, setTitle] = useState('')
-  const [titleStartsWith, setTitleStartsWith] = useState('')
-  const [startYear, setStartYear] = useState('')
-  const [issueNumber, setIssueNumber] = useState('')
-  const [diamondCode, setDiamondCode] = useState('')
-  const [digitalID, setDigitalID] = useState('')
-  const [upc, setUpc] = useState('')
-  const [isbn, setIsbn] = useState('')
-  const [ean, setEan] = useState('')
-  const [issn, setIssn] = useState('')
-  const [hasDigitalIssue, setHasDigitalIssue] = useState('')
-  const [modifiedSince, setModifiedSince] = useState('')
-  const [creators, setCreators] = useState('')
-  const [characters, setCharacters] = useState('')
-  const [series, setSeries] = useState('')
-  const [events, setEvents] = useState('')
-  const [stories, setStories] = useState('')
-  const [sharedAppearances, setSharedAppearances] = useState('')
-  const [collaborators, setCollaborators] = useState('')
-  const [orderBy, setOrderBy] = useState('')
-  const [limit, setLimit] = useState('')
-  const [offset, setOffset] = useState('')
-
 	useEffect(() => {
 		loadComicsFilters(pagination.data.offset)
-	    if (pagination.data.search && pagination.data.search.hideFields) {
-	      setHideFields(pagination.data.search.hideFields)
+    if (pagination.data.search && pagination.data.hideFields) {
+      updateHideFields(pagination.data.hideFields)
+    }
+    
+    let urlParamExists = false
+    for(const key in pagination.data) {
+      const val = pagination.data[key]
+      if (val === null) {
+        delete pagination.data[key]
+      } else {
+        urlParamExists = true
+        if (key === 'noVariants' && val == 'true') {
+          updateNoVariants(true)
+        } if (key === 'hasDigitalIssue' && val == 'true') {
+          updateHasDigitalIssue(true)
+        } else {
+          const setFunc = 'update' + key[0].toUpperCase() + key.slice(1) + '(' + `'${val}'` + ')'
+          eval(setFunc)
+        }
+      }
+    }
+    if (urlParamExists) {
+      const payload = {
+	      format: pagination.data.format,
+	      formatType: pagination.data.formatType,
+	      noVariants: pagination.data.noVariants,
+	      dateDescriptor: pagination.data.dateDescriptor,
+	      dateRange: pagination.data.dateRange,
+	      title: pagination.data.title,
+	      titleStartsWith: pagination.data.titleStartsWith,
+	      startYear: pagination.data.startYear,
+	      issueNumber: pagination.data.issueNumber,
+	      diamondCode: pagination.data.diamondCode,
+	      digitalID: pagination.data.digitalID,
+	      upc: pagination.data.upc,
+	      isbn: pagination.data.isbn,
+	      ean: pagination.data.ean,
+	      issn: pagination.data.issn,
+	      hasDigitalIssue: pagination.data.hasDigitalIssue,
+	      modifiedSince: pagination.data.modifiedSince,
+	      creators: pagination.data.creators,
+	      characters: pagination.data.characters,
+	      series: pagination.data.series,
+	      events: pagination.data.events,
+	      stories: pagination.data.stories,
+	      sharedAppearances: pagination.data.sharedAppearances,
+	      collaborators: pagination.data.collaborators,
+	      orderBy: pagination.data.orderBy,
+	      limit: pagination.data.limit,
+	      offset: pagination.data.offset,
 	    }
-	    console.log('in development')
-	    return
-	    const payload = {}
-	    /*
-	    const payload = {
-	      format: pagination.data.search.format,
-	      formatType: pagination.data.search.formatType,
-	      noVariants: pagination.data.search.noVariants,
-	      dateDescriptor: pagination.data.search.dateDescriptor,
-	      dateRange: query.get('dateRange,
-	      title: query.get('title'),
-	      titleStartsWith: query.get('titleStartsWith'),
-	      startYear: query.get('startYear'),
-	      issueNumber: query.get('issueNumber'),
-	      diamondCode: query.get('diamondCode'),
-	      digitalID: query.get('digitalID'),
-	      upc: query.get('upc'),
-	      isbn: query.get('isbn'),
-	      ean: query.get('ean'),
-	      issn: query.get('issn'),
-	      hasDigitalIssue: query.get('hasDigitalIssue'),
-	      modifiedSince: query.get('modifiedSince'),
-	      creators: query.get('creators'),
-	      characters: query.get('characters'),
-	      series: query.get('series'),
-	      events: query.get('events'),
-	      stories: query.get('stories'),
-	      sharedAppearances: query.get('sharedAppearances'),
-	      collaborators: query.get('collaborators'),
-	      orderBy: query.get('orderBy'),
-	      limit: query.get('limit'),
-	      offset: paginationOffset,
-	    }
-	    */
-	    let urlParamExists = false
-	    for(const key in payload) {
-	      const val = payload[key]
-	      if (val === null) {
-	        delete payload[key]
-	      } else {
-	        urlParamExists = true
-	        if (key === 'noVariants' && val == 'true') {
-	          setNoVariants(true)
-	        } if (key === 'hasDigitalIssue' && val == 'true') {
-	          setHasDigitalIssue(true)
-	        } else {
-	          const setFunc = 'set' + key[0].toUpperCase() + key.slice(1) + '(' + `'${val}'` + ')'
-	          eval(setFunc)
-	        }
-	      }
-	    }
-	    if (urlParamExists) {
-	      // search comics with filters from url  
-	      loadSearchComics(payload, payload.offset)
-	    }
-	}, [])
+      loadSearchComics(payload, payload.offset)
+    }
+	}, [pagination.data.offset,])
 
 	const loadComicsFilters = (paginationOffset) => {
 		getComicsFilters(paginationOffset)
@@ -125,6 +92,126 @@ const SearchComicsPage = ({
 
 	const loadSearchComics = (filters, paginationOffset) => {
 		getSearchComics(filters, paginationOffset)
+	}
+	
+	const updatePagination = subject => {
+		const newPagination = { 
+			...pagination.data,
+			...subject,
+		}
+		setPagination(newPagination)
+	}
+	
+	const updateFormat = subject => {
+		updatePagination({ format: subject, })
+	}
+	
+	const updateFormatType = subject => {
+		updatePagination({ formatType: subject, })
+	}
+	
+	const updateNoVariants = subject => {
+		updatePagination({ noVariants: subject, })
+	}
+	
+	const updateDateDescriptor = subject => {
+		updatePagination({ dateDescriptor: subject, })
+	}
+	
+	const updateDateRange = subject => {
+		updatePagination({ dateRange: subject, })
+	}
+	
+	const updateTitle = subject => {
+		updatePagination({ title: subject, })
+	}
+	
+	const updateTitleStartsWith = subject => {
+		updatePagination({ titleStartsWith: subject, })
+	}
+	
+	const updateStartYear = subject => {
+		updatePagination({ startYear: subject, })
+	}
+	
+	const updateIssueNumber = subject => {
+		updatePagination({ issueNumber: subject, })
+	}
+	
+	const updateDiamondCode = subject => {
+		updatePagination({ diamondCode: subject, })
+	}
+	
+	const updateDigitalID = subject => {
+		updatePagination({ digitalID: subject, })
+	}
+	
+	const updateUpc = subject => {
+		updatePagination({ upc: subject, })
+	}
+	
+	const updateIsbn = subject => {
+		updatePagination({ isbn: subject, })
+	}
+	
+	const updateEan = subject => {
+		updatePagination({ ean: subject, })
+	}
+	
+	const updateIssn = subject => {
+		updatePagination({ issn: subject, })
+	}
+	
+	const updateHasDigitalIssue = subject => {
+		updatePagination({ hasDigitalIssue: subject, })
+	}
+	
+	const updateModifiedSince = subject => {
+		updatePagination({ modifiedSince: subject, })
+	}
+	
+	const updateCreators = subject => {
+		updatePagination({ creators: subject, })
+	}
+	
+	const updateCharacters = subject => {
+		updatePagination({ characters: subject, })
+	}
+	
+	const updateSeries = subject => {
+		updatePagination({ series: subject, })
+	}
+	
+	const updateEvents = subject => {
+		updatePagination({ events: subject, })
+	}
+	
+	const updateStories = subject => {
+		updatePagination({ stories: subject, })
+	}
+	
+	const updateSharedAppearances = subject => {
+		updatePagination({ sharedAppearances: subject, })
+	}
+	
+	const updateCollaborators = subject => {
+		updatePagination({ collaborators: subject, })
+	}
+	
+	const updateOrderBy = subject => {
+		updatePagination({ orderBy: subject, })
+	}
+	
+	const updateLimit = subject => {
+		updatePagination({ limit: subject, })
+	}
+	
+	const updateOffset = subject => {
+		updatePagination({ offset: parseInt(subject), })
+	}
+	
+	const updateHideFields = subject => {
+		updatePagination({ hideFields: subject, })
 	}
 
 	const {
@@ -213,37 +300,38 @@ const SearchComicsPage = ({
 	}
   
   const handleSearchPageFormSubmit = e => {
-	e.preventDefault()
+		e.preventDefault()
+		
     const payload = {
-      format,
-      formatType,
-      noVariants,
-      dateDescriptor,
-      dateRange,
-      title,
-      titleStartsWith,
-      startYear,
-      issueNumber,
-      diamondCode,
-      digitalID,
-      upc,
-      isbn,
-      ean,
-      issn,
-      hasDigitalIssue,
-      modifiedSince,
-      creators,
-      characters,
-      series,
-      events,
-      stories,
-      sharedAppearances,
-      collaborators,
-      orderBy,
-      limit,
-      offset,
+      format: pagination.data.format,
+      formatType: pagination.data.formatType,
+      noVariants: pagination.data.noVariants,
+      dateDescriptor: pagination.data.dateDescriptor,
+      dateRange: pagination.data.dateRange,
+      title: pagination.data.title,
+      titleStartsWith: pagination.data.titleStartsWith,
+      startYear: pagination.data.startYear,
+      issueNumber: pagination.data.issueNumber,
+      diamondCode: pagination.data.diamondCode,
+      digitalID: pagination.data.digitalID,
+      upc: pagination.data.upc,
+      isbn: pagination.data.isbn,
+      ean: pagination.data.ean,
+      issn: pagination.data.issn,
+      hasDigitalIssue: pagination.data.hasDigitalIssue,
+      modifiedSince: pagination.data.modifiedSince,
+      creators: pagination.data.creators,
+      characters: pagination.data.characters,
+      series: pagination.data.series,
+      events: pagination.data.events,
+      stories: pagination.data.stories,
+      sharedAppearances: pagination.data.sharedAppearances,
+      collaborators: pagination.data.collaborators,
+      orderBy: pagination.data.orderBy,
+      limit: pagination.data.limit,
+      offset: pagination.data.offset,
     }
-    loadSearchComics(payload, offset)
+    loadSearchComics(payload, payload.offset)
   }
 
 	if (!comicsFiltersData && !comicsFiltersFetched && !comicsFiltersLoading) {
@@ -259,11 +347,11 @@ const SearchComicsPage = ({
 		content = (
 			<div className="container text-center">
 				<div className="content-header">
-					<SimplePagination hideFields={hideFields} data={searchComicsData} />
+					<SimplePagination data={searchComicsData} />
 				</div>
 				{__renderComics()}
 				<div className="content-footer">
-					<SimplePagination hideFields={hideFields} data={searchComicsData} />
+					<SimplePagination data={searchComicsData} />
 				</div>
 			</div>
 		)
@@ -274,18 +362,17 @@ const SearchComicsPage = ({
 			<div>Unknown error encountered</div>
 		</div>
 	}
-  
   return <>
     {__renderHeaderTags()}
     <div className="container">
       <div className="form-group">
-        {hideFields ? <button
-          onClick={(e) => { setHideFields(false) }}
+        {pagination.data.hideFields ? <button
+          onClick={(e) => { updateHideFields(false) }}
           name='hideFieldsFalse'
           className='form-control btn btn-secondary float-right'
         >Show fields</button> : null}
-        {!hideFields ? <button
-          onClick={(e) => { setHideFields(true) }}
+        {!pagination.data.hideFields ? <button
+          onClick={(e) => { updateHideFields(true) }}
           name='hideFieldsTrue'
           className='form-control btn btn-secondary float-right'
         >Hide fields</button> : null}
@@ -298,8 +385,7 @@ const SearchComicsPage = ({
       >
         <div className="card-body bg-dark">
           <div className="card-text bg-dark">
-            <div className={hideFields ? 'd-none' : ''}>
-              <input type="hidden" name='hideFields' value={hideFields} />
+            <div className={pagination.data.hideFields ? 'd-none' : ''}>
               <div className="form-group">
                 {searchComicsData && searchComicsData.error && searchComicsData.error.format ?
                   <>
@@ -310,11 +396,11 @@ const SearchComicsPage = ({
                   </> :
                   null}
                 <select
-                  onChange={(e) => { setFormat(e.target.value) }}
+                  onChange={(e) => { updateFormat(e.target.value) }}
                   name='format'
                   type="text"
                   className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.format ? isInvalidClass : ''}`}
-                  value={format}
+                  value={pagination.data.format}
                   style={styles.input}
                 >
                   <option value="">{comicsFiltersData.format && comicsFiltersData.format.description}</option>
@@ -333,11 +419,11 @@ const SearchComicsPage = ({
                   </> :
                   null}
                 <select
-                  onChange={(e) => { setFormatType(e.target.value) }}
+                  onChange={(e) => { updateFormatType(e.target.value) }}
                   name='formatType'
                   type="text"
                   className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.formatType ? isInvalidClass : ''}`}
-                  value={formatType}
+                  value={pagination.data.formatType}
                   style={styles.input}
                 >
                   <option value="">{comicsFiltersData.formatType && comicsFiltersData.formatType.description}</option>
@@ -359,8 +445,8 @@ const SearchComicsPage = ({
                   type="checkbox" 
                   name="noVariants" 
                   className={`${searchComicsData && searchComicsData.error && searchComicsData.error.noVariants ? isInvalidClass : ''}`}
-                  onChange={evt => { setNoVariants(evt.target.checked) }}
-                  value={noVariants}
+                  onChange={evt => { updateNoVariants(evt.target.checked) }}
+                  value={pagination.data.noVariants}
                 />
               </div>
               <div className="form-group">
@@ -373,11 +459,11 @@ const SearchComicsPage = ({
                   </> :
                   null}
                 <select
-                  onChange={(e) => { setDateDescriptor(e.target.value) }}
+                  onChange={(e) => { updateDateDescriptor(e.target.value) }}
                   name='dateDescriptor'
                   type="text"
                   className={`form-control ${searchComicsData && searchComicsData.error && searchComicsData.error.dateDescriptor ? isInvalidClass : ''}`}
-                  value={dateDescriptor}
+                  value={pagination.data.dateDescriptor}
                   style={styles.input}
                 >
                   <option value="">{comicsFiltersData.dateDescriptor && comicsFiltersData.dateDescriptor.description}</option>
@@ -397,12 +483,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="dateRange">{comicsFiltersData.dateRange && comicsFiltersData.dateRange.description}</label>
                 <input 
-                  onChange={(e) => { setDateRange(e.target.value) }}
+                  onChange={(e) => { updateDateRange(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.dateRange ? isInvalidClass : ''}`}
                   name='dateRange'
                   placeholder='Date range'
-                  value={dateRange}
+                  value={pagination.data.dateRange}
                 />
               </div>
               <div className="form-group">
@@ -416,12 +502,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="title">{comicsFiltersData.title && comicsFiltersData.title.description}</label>
                 <input 
-                  onChange={(e) => { setTitle(e.target.value) }}
+                  onChange={(e) => { updateTitle(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.title ? isInvalidClass : ''}`}
                   name='title'
                   placeholder='Title'
-                  value={title}
+                  value={pagination.data.title}
                 />
               </div>
               <div className="form-group">
@@ -435,12 +521,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="titleStartsWith">{comicsFiltersData.titleStartsWith && comicsFiltersData.titleStartsWith.description}</label>
                 <input 
-                  onChange={(e) => { setTitleStartsWith(e.target.value) }}
+                  onChange={(e) => { updateTitleStartsWith(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.titleStartsWith ? isInvalidClass : ''}`}
                   name='titleStartsWith'
                   placeholder='Title starts with...'
-                  value={titleStartsWith}
+                  value={pagination.data.titleStartsWith}
                 />
               </div>
               <div className="form-group">
@@ -454,12 +540,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="startYear">{comicsFiltersData.startYear && comicsFiltersData.startYear.description}</label>
                 <input 
-                  onChange={(e) => { setStartYear(e.target.value) }}
+                  onChange={(e) => { updateStartYear(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.startYear ? isInvalidClass : ''}`}
                   name='startYear'
                   placeholder='Start year'
-                  value={startYear}
+                  value={pagination.data.startYear}
                 />
               </div>
               <div className="form-group">
@@ -473,12 +559,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="issueNumber">{comicsFiltersData.issueNumber && comicsFiltersData.issueNumber.description}</label>
                 <input 
-                  onChange={(e) => { setIssueNumber(e.target.value) }}
+                  onChange={(e) => { updateIssueNumber(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.issueNumber ? isInvalidClass : ''}`}
                   name='issueNumber'
                   placeholder='Issue number'
-                  value={issueNumber}
+                  value={pagination.data.issueNumber}
                 />
               </div>
               <div className="form-group">
@@ -492,12 +578,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="diamondCode">{comicsFiltersData.diamondCode && comicsFiltersData.diamondCode.description}</label>
                 <input 
-                  onChange={(e) => { setDiamondCode(e.target.value) }}
+                  onChange={(e) => { updateDiamondCode(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.diamondCode ? isInvalidClass : ''}`}
                   name='diamondCode'
                   placeholder='Diamond code'
-                  value={diamondCode}
+                  value={pagination.data.diamondCode}
                 />
               </div>
               <div className="form-group">
@@ -511,12 +597,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="digitalId">{comicsFiltersData.digitalId && comicsFiltersData.digitalId.description}</label>
                 <input 
-                  onChange={(e) => { setDigitalID(e.target.value) }}
+                  onChange={(e) => { updateDigitalID(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.digitalId ? isInvalidClass : ''}`}
                   name='digitalId'
                   placeholder='Digital id'
-                  value={digitalID}
+                  value={pagination.data.digitalID}
                 />
               </div>
               <div className="form-group">
@@ -530,12 +616,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="upc">{comicsFiltersData.upc && comicsFiltersData.upc.description}</label>
                 <input 
-                  onChange={(e) => { setUpc(e.target.value) }}
+                  onChange={(e) => { updateUpc(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.upc ? isInvalidClass : ''}`}
                   name='upc'
                   placeholder='UPC barcode'
-                  value={upc}
+                  value={pagination.data.upc}
                 />
               </div>
               <div className="form-group">
@@ -549,12 +635,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="isbn">{comicsFiltersData.isbn && comicsFiltersData.isbn.description}</label>
                 <input 
-                  onChange={(e) => { setIsbn(e.target.value) }}
+                  onChange={(e) => { updateIsbn(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.isbn ? isInvalidClass : ''}`}
                   name='isbn'
                   placeholder='ISBN number'
-                  value={isbn}
+                  value={pagination.data.isbn}
                 />
               </div>
               <div className="form-group">
@@ -568,12 +654,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="ean">{comicsFiltersData.ean && comicsFiltersData.ean.description}</label>
                 <input 
-                  onChange={(e) => { setEan(e.target.value) }}
+                  onChange={(e) => { updateEan(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.ean ? isInvalidClass : ''}`}
                   name='ean'
                   placeholder='EAN number (The International Article Number or European Article Number)'
-                  value={ean}
+                  value={pagination.data.ean}
                 />
               </div>
               <div className="form-group">
@@ -587,12 +673,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="issn">{comicsFiltersData.issn && comicsFiltersData.issn.description}</label>
                 <input 
-                  onChange={(e) => { setIssn(e.target.value) }}
+                  onChange={(e) => { updateIssn(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.issn ? isInvalidClass : ''}`}
                   name='issn'
                   placeholder='ISSN number (International Standard Serial Number)'
-                  value={issn}
+                  value={pagination.data.issn}
                 />
               </div>
               <div className="form-group">
@@ -608,8 +694,8 @@ const SearchComicsPage = ({
                   type="checkbox" 
                   name="hasDigitalIssue" 
                   className={`${searchComicsData && searchComicsData.error && searchComicsData.error.hasDigitalIssue ? isInvalidClass : ''}`}
-                  onChange={evt => { setHasDigitalIssue(evt.target.checked) }}
-                  value={hasDigitalIssue}
+                  onChange={evt => { updateHasDigitalIssue(evt.target.checked) }}
+                  value={pagination.data.hasDigitalIssue}
                 />
               </div>
               <div className="form-group">
@@ -623,13 +709,13 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="modifiedSince">{comicsFiltersData.modifiedSince && comicsFiltersData.modifiedSince.description}</label>
                 <input 
-                  onChange={(e) => { setModifiedSince(e.target.value) }}
+                  onChange={(e) => { updateModifiedSince(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.modifiedSince ? isInvalidClass : ''}`}
                   name='modifiedSince'
                   placeholder='Date modified since'
                   type='date'
-                  value={modifiedSince}
+                  value={pagination.data.modifiedSince}
                 />
               </div>
               <div className="form-group">
@@ -643,12 +729,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="creators">{comicsFiltersData.creators && comicsFiltersData.creators.description}</label>
                 <input 
-                  onChange={(e) => { setCreators(e.target.value) }}
+                  onChange={(e) => { updateCreators(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.creators ? isInvalidClass : ''}`}
                   name='creators'
                   placeholder='creators'
-                  value={creators}
+                  value={pagination.data.creators}
                 />
               </div>
               <div className="form-group">
@@ -662,12 +748,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="characters">{comicsFiltersData.characters && comicsFiltersData.characters.description}</label>
                 <input 
-                  onChange={(e) => { setCharacters(e.target.value) }}
+                  onChange={(e) => { updateCharacters(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.characters ? isInvalidClass : ''}`}
                   name='characters'
                   placeholder='Characters'
-                  value={characters}
+                  value={pagination.data.characters}
                 />
               </div>
               <div className="form-group">
@@ -681,12 +767,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="series">{comicsFiltersData.series && comicsFiltersData.series.description}</label>
                 <input 
-                  onChange={(e) => { setSeries(e.target.value) }}
+                  onChange={(e) => { updateSeries(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.series ? isInvalidClass : ''}`}
                   name='series'
                   placeholder='Series'
-                  value={series}
+                  value={pagination.data.series}
                 />
               </div>
               <div className="form-group">
@@ -700,12 +786,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="events">{comicsFiltersData.events && comicsFiltersData.events.description}</label>
                 <input 
-                  onChange={(e) => { setEvents(e.target.value) }}
+                  onChange={(e) => { updateEvents(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.events ? isInvalidClass : ''}`}
                   name='events'
                   placeholder='Events'
-                  value={events}
+                  value={pagination.data.events}
                 />
               </div>
               <div className="form-group">
@@ -719,12 +805,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="stories">{comicsFiltersData.stories && comicsFiltersData.stories.description}</label>
                 <input 
-                  onChange={(e) => { setStories(e.target.value) }}
+                  onChange={(e) => { updateStories(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.stories ? isInvalidClass : ''}`}
                   name='stories'
                   placeholder='Stories'
-                  value={stories}
+                  value={pagination.data.stories}
                 />
               </div>
               <div className="form-group">
@@ -738,12 +824,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="sharedAppearances">{comicsFiltersData.sharedAppearances && comicsFiltersData.sharedAppearances.description}</label>
                 <input 
-                  onChange={(e) => { setSharedAppearances(e.target.value) }}
+                  onChange={(e) => { updateSharedAppearances(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.sharedAppearances ? isInvalidClass : ''}`}
                   name='sharedAppearances'
                   placeholder='Shared appearances'
-                  value={sharedAppearances}
+                  value={pagination.data.sharedAppearances}
                 />
               </div>
               <div className="form-group">
@@ -757,12 +843,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="collaborators">{comicsFiltersData.collaborators && comicsFiltersData.collaborators.description}</label>
                 <input 
-                  onChange={(e) => { setCollaborators(e.target.value) }}
+                  onChange={(e) => { updateCollaborators(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.collaborators ? isInvalidClass : ''}`}
                   name='collaborators'
                   placeholder='Collaborators'
-                  value={collaborators}
+                  value={pagination.data.collaborators}
                 />
               </div>
               <div className="form-group">
@@ -776,12 +862,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="orderBy">{comicsFiltersData.orderBy && comicsFiltersData.orderBy.description}</label>
                 <input 
-                  onChange={(e) => { setOrderBy(e.target.value) }}
+                  onChange={(e) => { updateOrderBy(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.orderBy ? isInvalidClass : ''}`}
                   name='orderBy'
                   placeholder='Order by'
-                  value={orderBy}
+                  value={pagination.data.orderBy}
                 />
               </div>
               <div className="form-group">
@@ -795,12 +881,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="limit">{comicsFiltersData.limit && comicsFiltersData.limit.description}</label>
                 <input 
-                  onChange={(e) => { setLimit(e.target.value) }}
+                  onChange={(e) => { updateLimit(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.limit ? isInvalidClass : ''}`}
                   name='limit'
                   placeholder='Limit'
-                  value={limit}
+                  value={pagination.data.limit}
                 />
               </div>
               <div className="form-group">
@@ -814,12 +900,12 @@ const SearchComicsPage = ({
                   null}
                 <label htmlFor="offset">{comicsFiltersData.offset && comicsFiltersData.offset.description}</label>
                 <input 
-                  onChange={(e) => { setOffset(e.target.value) }}
+                  onChange={(e) => { updateOffset(e.target.value) }}
                   style={styles.input}
                   className={`form-control search-input ${searchComicsData && searchComicsData.error && searchComicsData.error.offset ? isInvalidClass : ''}`}
                   name='offset'
                   placeholder='Offset'
-                  value={offset}
+                  value={pagination.data.offset}
                 />
               </div>
             </div>
@@ -861,6 +947,7 @@ const mapStateToProps = state => ({
 	searchComics: state.searchComics,
 })
 const mapDispatchToProps = dispatch => ({
+	setPagination: pagination => dispatch(setPagination(pagination)),
 	getPagination: () => dispatch(getPagination()),
 	getComicsFilters: (filters, offset) => dispatch(getComicsFilters(offset)),
 	getSearchComics: (filters, offset) => dispatch(getSearchComics(filters, offset)),

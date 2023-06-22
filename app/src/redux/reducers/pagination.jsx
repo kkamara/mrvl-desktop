@@ -1,7 +1,36 @@
 import { paginationActions, } from "./types"
 
 const initialState = {
-    data: { offset: 0, search: null, },
+    data: { 
+		  hideFields: false,
+		  format: '',
+		  formatType: '',
+		  noVariants: false,
+		  dateDescriptor: '',
+		  dateRange: '',
+		  title: '',
+		  titleStartsWith: '',
+		  startYear: '',
+		  issueNumber: '',
+		  diamondCode: '',
+		  digitalID: '',
+		  upc: '',
+		  isbn: '',
+		  ean: '',
+		  issn: '',
+		  hasDigitalIssue: '',
+		  modifiedSince: '',
+		  creators: '',
+		  characters: '',
+		  series: '',
+		  events: '',
+		  stories: '',
+		  sharedAppearances: '',
+		  collaborators: '',
+		  orderBy: '',
+		  limit: '',
+			offset: 0,
+		},
     fetched: false,
     loading: false,
 }
@@ -24,7 +53,7 @@ const paginationReducer = (state = initialState, action) => {
                 ...state,
                 fetched: true,
                 loading: false,
-                data: action.payload,
+                data: { ...action.payload },
             }
     }
 

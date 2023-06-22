@@ -8,56 +8,48 @@ const SimplePagination = ({
 	getPagination,
 	pagination, 
 	data, 
-	hideFields,
-}) => {		
+}) => {
 	useEffect(() => {
+		const loadPagination = () => {
+			getPagination()
+		}
 		loadPagination()
-	}, [pagination.data.offset,])
-	
-	const loadPagination = () => {
-		getPagination()
-	}
-	
-    const { 
-		data: paginationData,
-		fetched: paginationFetched,
-		loading: paginationLoading,
-	} = pagination
-console.log(paginationData.offset, 'simplepagination')
-    let disableLeftPaginator = false,
-        disableRightPaginator = false
-    if (paginationData.offset < 1) {
-        disableLeftPaginator = true
-    }
-    if (data.count < data.limit) {
-        disableRightPaginator = true
-    }
+	}, [getPagination, pagination.data.offset,])
+		
+	let disableLeftPaginator = false,
+      disableRightPaginator = false
+  if (pagination.data.offset < 1) {
+      disableLeftPaginator = true
+  }
+  if (data.count < data.limit) {
+      disableRightPaginator = true
+  }
 
-    const prevOffset = paginationData.offset - 20
-    const nextOffset = paginationData.offset + 20
+  const prevOffset = pagination.data.offset - 20
+  const nextOffset = pagination.data.offset + 20
 
-    const leftPaginateBtnClick = e => {
-        if (disableLeftPaginator) return
-        setPagination({ offset: prevOffset, })
-    }
+  const leftPaginateBtnClick = e => {
+      if (disableLeftPaginator) return
+      setPagination({ offset: prevOffset, })
+  }
 
-    const rightPaginateBtnClick = e => {
-        if (disableRightPaginator) return
-        setPagination({ offset: nextOffset, })
-    }
-    
-    return <>
-        <nav aria-label='Comic pagination'>
-            <ul className='pagination justify-content-center'>
-                <li onClick={leftPaginateBtnClick} className={`page-item ${disableLeftPaginator ? 'disabled' : ''}`}>
-                    <span className='page-link'>Previous</span>
-                </li>
-                <li onClick={rightPaginateBtnClick} className={`page-item ${disableRightPaginator ? 'disabled' : ''}`}>
-                    <span className='page-link'>Next</span>
-                </li>
-            </ul>
-        </nav>
-    </>
+  const rightPaginateBtnClick = e => {
+      if (disableRightPaginator) return
+      setPagination({ offset: nextOffset, })
+  }
+  
+  return <>
+      <nav aria-label='Comic pagination'>
+          <ul className='pagination justify-content-center'>
+              <li onClick={leftPaginateBtnClick} className={`page-item ${disableLeftPaginator ? 'disabled' : ''}`}>
+                  <span className='page-link'>Previous</span>
+              </li>
+              <li onClick={rightPaginateBtnClick} className={`page-item ${disableRightPaginator ? 'disabled' : ''}`}>
+                  <span className='page-link'>Next</span>
+              </li>
+          </ul>
+      </nav>
+  </>
 }
 
 const mapStateToProps = state => ({
