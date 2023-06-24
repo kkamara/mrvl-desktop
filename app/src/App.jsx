@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Redirect, Route, Routes, Navigate, } from 'react-router-dom'
+import { HashRouter, Switch, Redirect, Route, Routes, Navigate, } from 'react-router-dom'
 import React, { Fragment, lazy, Suspense, } from 'react'
 
 import $ from'jquery'
@@ -23,7 +23,7 @@ import './App.scss'
 
 const App = () => (
   <div id='app'>
-    <BrowserRouter>
+    <HashRouter>
       <Fragment>
         <Header />
         <Routes>
@@ -36,7 +36,7 @@ const App = () => (
         </Routes>
         <Footer />
       </Fragment>
-    </BrowserRouter>
+    </HashRouter>
   </div>
 )
 
