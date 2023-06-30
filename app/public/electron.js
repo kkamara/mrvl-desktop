@@ -8,7 +8,13 @@ const inProduction = app.isPackaged
 let mainWindow
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 1300, height: 700, })
+    mainWindow = new BrowserWindow({
+      width: 1300,
+      height: 700,
+      webPreferences: {
+        devTools: inProduction ? false : true,
+      },
+    })
 
     if (inProduction) {
         mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
