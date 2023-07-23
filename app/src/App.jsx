@@ -26,7 +26,7 @@ const App = () => (
     <HashRouter>
       <Fragment>
         <Header />
-        <Route path='/'><HomePage/></Route>
+        <Route exact path='/'><HomePage/></Route>
         <Route path='/comic/:comic'><ComicPage/></Route>
         <Route path='/search'><SearchComicsPage/></Route>
         <Route path='/favs'><FavouriteComicsPage/></Route>
