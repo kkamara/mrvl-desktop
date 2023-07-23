@@ -8,9 +8,9 @@
 
 ![mrvl-desktop3.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl-desktop3.png)
 
-# mrvl-desktop [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
+# mrvl-desktop
 
-(15 Jun 23) Browse and manage your favourite Marvel Comics. Reactjs.
+(15 Jun 2023) Browse and manage your favourite Marvel Comics. Reactjs.
 
 ## Download
 
