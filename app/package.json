@@ -1,7 +1,7 @@
 {
   "name": "mrvl-desktop",
   "description": "Browse and manage your favourite Marvel Comics.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "https://github.com/kkamara",
   "private": true,
   "main": "public/electron.js",
@@ -16,7 +16,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "builder:build": "electron-builder --win --x64 --publish never",
-    "build": "npm run react-build && npm run builder:build",
+    "build": "npm run react-build && npm run electron-build",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "dependencies": {
