@@ -16,8 +16,9 @@ const ComicPage = ({
 }) => {
 
 	const { comic: data, fetched, loading, } = comic
-	const pathname = window.location.pathname
-	const id = pathname.slice(pathname.lastIndexOf('/') + 1)
+	const id = window.location.href.slice(
+    window.location.href.lastIndexOf('/') + 1,
+	)
 	let pageTitle = ` | ${APP_NAME}`
 	
 	useEffect(() => {
