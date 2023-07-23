@@ -197,6 +197,7 @@ function ComicModal({
           <hr/>
           <CardActions>
             <a 
+              target='_blank'
               className='btn btn-dark store-page-link'
               href={comic.urls[0].url}
               style={styles.linkBtn}
