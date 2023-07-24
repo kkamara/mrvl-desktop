@@ -31,7 +31,7 @@ const App = () => (
         <Route path='/search'><SearchComicsPage/></Route>
         <Route path='/favs'><FavouriteComicsPage/></Route>
         <Route path='/404'><Page404/></Route>
-        <Route path="/*"><Redirect to="/404" /></Route>
+        <Route path="/*"><Redirect to="/" /></Route>
         <Footer />
       </Fragment>
     </HashRouter>
