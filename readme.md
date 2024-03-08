@@ -52,28 +52,27 @@ async getFavComics(ids) {
 * [Yarn](https://yarnpkg.com/)
 
 ```bash
-  npm i -g yarn
-  yarn install # and yarn
+  npm install
   cp .env.example .env
 ```
 
 ## Usage
 
 ```bash
-  yarn start
+  npm start
 ```
 
 ## Building target: your machine
 
 ```bash
-  yarn build
+  npm run build
 ```
 
 ## Building target: cross-platform
 
 ```bash
   # --linux --win --mac --x64 --ia32
-  yarn run release
+  npm run release
 ```
 
 ## Misc
