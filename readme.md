@@ -10,7 +10,7 @@
 
 # mrvl-desktop
 
-(15 Jun 2023) Browse and manage your favourite Marvel Comics. Reactjs.
+(15-Jun-2023) Browse and manage your favourite Marvel Comics. Reactjs.
 
 ## Download
 
