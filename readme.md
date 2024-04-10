@@ -14,7 +14,9 @@
 
 ## Download
 
-* [macOs](https://github.com/kkamara/mrvl-desktop/releases).
+* [MacOs](https://github.com/kkamara/mrvl-desktop/releases)
+
+* [Windows](https://github.com/kkamara/mrvl-desktop/releases).
 
 ## Code snippet
 
