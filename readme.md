@@ -1,5 +1,3 @@
-See [MRVL Web](https://www.github.com/kkamara/mrvl-web).
-
 ![marvel-moving](https://user-images.githubusercontent.com/31970496/201666745-37f4c424-0557-4051-bf27-d40cd0b09780.gif)
 
 ![mrvl-desktop4.png](https://raw.githubusercontent.com/kkamara/useful/main/mrvl-desktop4.png)
@@ -83,6 +81,8 @@ async getFavComics(ids) {
 [Complete MRVL web app now in desktop (all functionality available) #1](https://github.com/kkamara/mrvl-desktop/issues/1).
 
 Each Marvel API key ([see environment variables](https://raw.githubusercontent.com/kkamara/mrvl/main/.env.example)) has a request limit of 3000/day.
+
+[See MRVL Web](https://www.github.com/kkamara/mrvl-web).
 
 [See ReactJS Boilerplate.](https://github.com/kkamara/reactjs-boilerplate)
 
